@@ -7,7 +7,7 @@ class Scraper:
     def __init__(self, url):
         response = get(url, headers={'User-Agent': 'Mozilla/5.0'})
         html = response.content
-        self.data = BeautifulSoup(html, features="html5lib")
+        self.data = BeautifulSoup(html, features='html.parser')
         self.nodes = self.data.findAll(
                 'div',
                 attrs={'class': lambda L: L
