@@ -6,4 +6,6 @@ response = get(url, headers={'User-Agent': 'Mozilla/5.0'})
 html= response.content
 
 soup = BeautifulSoup(html)
-print(soup.prettify())
+data = soup.find('div', attrs={'id':'content'})
+
+print(data.prettify())
