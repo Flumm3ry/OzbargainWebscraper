@@ -1,6 +1,14 @@
-def test_sample1():
-    assert True
+from scraper import Scraper
+
+url = 'https://www.ozbargain.com.au/'
 
 
-def test_sample2():
-    assert 1 == 1
+def test_count():
+    scraper = Scraper(url)
+    assert scraper.count() > 0
+
+
+def test_does_not_expired():
+    scraper = Scraper(url)
+    for node in scraper.nodes:
+        assert str(node).find("expired") == -1
