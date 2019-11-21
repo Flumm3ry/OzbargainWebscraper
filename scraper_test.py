@@ -22,5 +22,5 @@ def test_all_cells_populated():
 
 def test_not_html_in_content():
     for row in scraper.table:
-        assert not bool(BeautifulSoup(row[0], 'html.parser').find())
-        assert not bool(BeautifulSoup(row[1], 'html.parser').find())
+        for cell in row:
+            assert not bool(BeautifulSoup(cell, 'html.parser').find())
