@@ -8,7 +8,10 @@ class Scraper:
         response = get(url, headers={'User-Agent': 'Mozilla/5.0'})
         html = response.content
         self.data = BeautifulSoup(html, features='html.parser')
-        self.nodes = self.data.findAll(
+        self.nodes = self.extractNodes(self.data)
+
+    def extractNodes(self, data):
+        return data.findAll(
                 'div',
                 attrs={'class': lambda L: L
                        and L.find("node-ozbdeal") > 0
