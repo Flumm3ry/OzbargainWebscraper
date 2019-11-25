@@ -1,5 +1,6 @@
 from requests import get
 from bs4 import BeautifulSoup
+from node import Node
 
 
 class Scraper:
@@ -8,12 +9,12 @@ class Scraper:
         response = get(url, headers={'User-Agent': 'Mozilla/5.0'})
         html = response.content
         self.data = BeautifulSoup(html, features='html.parser')
-        self.nodes = self.extractRow(self.data)
+        self.rows = self.extractRow(self.data)
 
         self.table = []
 
-        for node in self.nodes:
-            self.table.append(self.extractData(node))
+        for row in self.rows:
+            self.table.append(self.extractData(row))
 
     def extractRow(self, data):
         return data.findAll(
@@ -23,22 +24,18 @@ class Scraper:
                        and L.find("expired") == -1}
                 )
 
-    def extractData(self, node):
-        result = []
-        title_section = node.find('h2', attrs={'class': 'title'})
+    def extractData(self, row):
+        title_section = row.find('h2', attrs={'class': 'title'})
         title = title_section.get('data-title')
-        result.append(title)
-        content_section = node.find('div', attrs={'class': 'content'})
+        content_section = row.find('div', attrs={'class': 'content'})
         content = content_section.get_text().strip()
-        result.append(content)
-        return result
+        return Node(title, content)
 
     def count(self):
-        return len(self.nodes)
+        return len(self.rows)
 
-    def print_table(self):
-        for row in self.table:
-            print('TITLE')
-            print(row[0])
-            print('CONTENT')
-            print(row[1])
+    def get_html_results(self):
+        result = ""
+        for node in self.table:
+            result = result + node.get_html()
+        return result
