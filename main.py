@@ -13,7 +13,7 @@ def home():
 
 @app.route("/alerts")
 def alerts():
-    return "Alerts stuff will go here"
+    return render_template("alerts.html")
 
 
 print(scraper.count())

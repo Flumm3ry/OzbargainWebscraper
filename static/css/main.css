@@ -1,17 +1,8 @@
-header{
-	position: fixed;
-	top: 0px;
-	width: 100%;
-	background-color: #dddddd;
-	z-index: 9999;
-}
-
 .myTitle{
 	margin-left: 30px;
 }
 
 body{
-	padding-top: 70px;
 	background-color: #ebebeb;
 }
 

@@ -1,4 +1,12 @@
 {% extends "template.html" %}
+
+{% block nav_links %}
+	
+	<li class="nav-item active"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+	<li class="nav-item"><a class="nav-link" href="{{ url_for('alerts') }}">Alerts</a></li>
+
+{% endblock %}
+
 {% block body_content %}
 
 	<h1 class="myTitle">Home Page</h1>
