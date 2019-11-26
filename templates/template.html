@@ -3,11 +3,16 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title>Web Scraper</title>
-		<!-- Will add CSS here -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')  }}"/>
 	</head>
 	<body>
 		<header>
-			<p><i>nav bar</i></p>
+			<nav>
+				<ul>
+					<li><a href="{{ url_for('home') }}">Home</a></li>
+					<li><a href="{{ url_for('alerts') }}">Alerts</a></li>
+				</ul>
+			</nav>
 		</header>
 
 		{% block body_content %}

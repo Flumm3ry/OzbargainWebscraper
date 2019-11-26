@@ -11,6 +11,11 @@ def home():
     return render_template("home.html", table=scraper.get_html_results())
 
 
+@app.route("/alerts")
+def alerts():
+    return "Alerts stuff will go here"
+
+
 print(scraper.count())
 
 if __name__ == "__main__":
