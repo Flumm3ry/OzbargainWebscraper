@@ -6,6 +6,7 @@ from node import Node
 class Scraper:
 
     def __init__(self, url):
+        self.url = url
         response = get(url, headers={'User-Agent': 'Mozilla/5.0'})
         html = response.content
         self.data = BeautifulSoup(html, features='html.parser')
@@ -27,9 +28,10 @@ class Scraper:
     def extractData(self, row):
         title_section = row.find('h2', attrs={'class': 'title'})
         title = title_section.get('data-title')
+        link = self.url[:-1] + title_section.find('a').get('href')
         content_section = row.find('div', attrs={'class': 'content'})
         content = content_section.get_text().strip()
-        return Node(title, content)
+        return Node(title, content, link)
 
     def count(self):
         return len(self.rows)
