@@ -1,9 +1,11 @@
 .myTitle{
 	margin-left: 30px;
+	padding-top: 10px;
 }
 
 body{
 	background-color: #ebebeb;
+	padding-bottom: 40px;
 }
 
 .card{
