@@ -49,9 +49,12 @@ class Scraper:
 
         f.seek(0, 0)
 
+        print("nah")
+
         for node in self.nodes:
             if int(node.node_num) <= l_node_num:
                 break
+            print("yah")
             f.write(node.get_csv() + '\n')
 
         f.close()
