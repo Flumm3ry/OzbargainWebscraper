@@ -1,9 +1,10 @@
 class Node:
-    def __init__(self, title, content, op_link, deal_link):
+    def __init__(self, title, content, op_link, deal_link, node_num):
         self.title = title
         self.content = content
         self.op_link = op_link
         self.deal_link = deal_link
+        self.node_num = node_num
 
     def get_html(self):
         result = "<div class='card'><div class='card-body'>"
@@ -21,3 +22,13 @@ class Node:
         result = result + "'>Link to Original Post</a>"
         result = result + "</div></div>"
         return result
+
+    def get_csv(self):
+        delimiter = '|'
+        csv = self.node_num + delimiter
+        csv = csv + self.title + delimiter
+        csv = csv + self.content + delimiter
+        csv = csv + self.op_link + delimiter
+        csv = csv + self.deal_link
+
+        return csv

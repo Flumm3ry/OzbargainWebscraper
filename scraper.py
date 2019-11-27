@@ -1,6 +1,7 @@
 from requests import get
 from bs4 import BeautifulSoup
 from node import Node
+import os
 
 
 class Scraper:
@@ -12,10 +13,10 @@ class Scraper:
         self.data = BeautifulSoup(html, features='html.parser')
         self.rows = self.extractRow(self.data)
 
-        self.table = []
+        self.nodes = []
 
         for row in self.rows:
-            self.table.append(self.extractData(row))
+            self.nodes.append(self.extractData(row))
 
     def extractRow(self, data):
         return data.findAll(
@@ -33,13 +34,26 @@ class Scraper:
         deal_link = self.url + "goto/" + node_num[0]
         content_section = row.find('div', attrs={'class': 'content'})
         content = content_section.get_text().strip()
-        return Node(title, content, op_link, deal_link)
+        return Node(title, content, op_link, deal_link, node_num[0])
 
-    def count(self):
-        return len(self.rows)
+    def updateCSV(self, filename):
+        l_node_num = 0
 
-    def get_html_results(self):
-        result = ""
-        for node in self.table:
-            result = result + node.get_html()
-        return result
+        if not os.path.exists('data'):
+            os.makedirs('data')
+            open('data/'+filename, 'x').close()
+
+        f = open('data/'+filename, "r+")
+
+        latest_node = f.readline()
+        if latest_node:
+            l_node_num = int(latest_node.split('|')[0])
+
+        f.seek(0, 0)
+
+        for node in self.nodes:
+            if int(node.node_num) <= l_node_num:
+                break
+            f.write(node.get_csv() + '\n')
+
+        f.close()
