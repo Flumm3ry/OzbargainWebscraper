@@ -3,7 +3,9 @@ from flask import Flask, render_template
 from node_list import NodeList
 from apscheduler.schedulers.background import BackgroundScheduler
 
-Scraper("https://www.ozbargain.com.au/").updateCSV('node_file.txt')
+url = "https://www.ozbargain.com.au/"
+
+Scraper(url).updateCSV('node_file.txt')
 
 node_list = NodeList('node_file.txt')
 
@@ -11,13 +13,13 @@ app = Flask(__name__)
 
 
 def update_scraped_data():
-    Scraper("https://www.ozbargain.com.au/").updateCSV('node_file.txt')
+    Scraper(url).updateCSV('node_file.txt')
     global node_list
     node_list = NodeList('node_file.txt')
 
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(update_scraped_data, 'interval', minutes=1)
+sched.add_job(update_scraped_data, 'interval', minutes=60)
 sched.start()
 
 
