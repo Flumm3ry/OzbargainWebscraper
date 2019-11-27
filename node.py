@@ -1,9 +1,10 @@
 class Node:
-    def __init__(self, title, content, op_link, deal_link, node_num):
+    def __init__(self, title, content, node_num):
+        base_url = "https://www.ozbargain.com.au/"
         self.title = title
         self.content = content
-        self.op_link = op_link
-        self.deal_link = deal_link
+        self.op_link = base_url + 'node/' + str(node_num)
+        self.deal_link = base_url + 'goto/' + str(node_num)
         self.node_num = node_num
 
     def get_html(self):
@@ -27,8 +28,6 @@ class Node:
         delimiter = '|'
         csv = self.node_num + delimiter
         csv = csv + self.title + delimiter
-        csv = csv + self.content + delimiter
-        csv = csv + self.op_link + delimiter
-        csv = csv + self.deal_link
+        csv = csv + self.content
 
         return csv

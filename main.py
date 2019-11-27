@@ -6,7 +6,7 @@ scraper = Scraper("https://www.ozbargain.com.au/")
 
 scraper.updateCSV('node_file.txt')
 
-node_list = NodeList(scraper.nodes)
+node_list = NodeList('node_file.txt')
 
 app = Flask(__name__)
 

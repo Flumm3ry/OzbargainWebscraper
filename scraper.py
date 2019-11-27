@@ -30,11 +30,9 @@ class Scraper:
         title_section = row.find('h2', attrs={'class': 'title'})
         title = title_section.get('data-title')
         node_num = title_section.find('a').get('href').split("/")[-1:]
-        op_link = self.url + "node/" + node_num[0]
-        deal_link = self.url + "goto/" + node_num[0]
         content_section = row.find('div', attrs={'class': 'content'})
         content = content_section.get_text().strip()
-        return Node(title, content, op_link, deal_link, node_num[0])
+        return Node(title, content, node_num[0])
 
     def updateCSV(self, filename):
         l_node_num = 0
@@ -47,7 +45,7 @@ class Scraper:
 
         latest_node = f.readline()
         if latest_node:
-            l_node_num = int(latest_node.split('|')[0])
+            l_node_num = int(latest_node.split('|', 1)[0])
 
         f.seek(0, 0)
 
