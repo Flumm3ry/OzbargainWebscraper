@@ -3,6 +3,7 @@ from flask import Flask, render_template
 from node_list import NodeList
 from apscheduler.schedulers.background import BackgroundScheduler
 
+Scraper("https://www.ozbargain.com.au/").updateCSV('node_file.txt')
 
 node_list = NodeList('node_file.txt')
 
@@ -29,8 +30,6 @@ def home():
 def alerts():
     return render_template("alerts.html")
 
-
-print(str(node_list.count()) + ' nodes retrieved')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
