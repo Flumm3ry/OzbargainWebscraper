@@ -1,6 +1,7 @@
 from requests import get
 from bs4 import BeautifulSoup
 from node import Node
+from node_list import NodeList
 import os
 
 
@@ -37,6 +38,10 @@ class Scraper:
     def updateCSV(self, filename):
         l_node_num = 0
 
+        node_list = NodeList(nodes=self.nodes)
+
+        node_list.sort()
+
         if not os.path.exists('data'):
             os.makedirs('data')
             open('data/'+filename, 'x').close()
@@ -49,8 +54,9 @@ class Scraper:
 
         f.seek(0, 0)
 
-        for node in self.nodes:
-            if int(node.node_num) > l_node_num:
-                f.write(node.get_csv() + '\n')
+        node_list.remove_before(l_node_num)
+
+        for node in node_list.nodes:
+            f.write(node.get_csv() + '\n')
 
         f.close()

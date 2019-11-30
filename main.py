@@ -7,7 +7,7 @@ url = "https://www.ozbargain.com.au/"
 
 Scraper(url).updateCSV('node_file.txt')
 
-node_list = NodeList('node_file.txt')
+node_list = NodeList(filename='node_file.txt')
 
 app = Flask(__name__)
 
