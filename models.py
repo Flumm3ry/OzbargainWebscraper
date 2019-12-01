@@ -19,7 +19,6 @@ def log_in_user(email, password):
     user_id = cur.fetchone()
 
     if user_id:
-        print(user_id[0])
         return user_id[0]
     else:
         return None
@@ -30,7 +29,9 @@ def get_user(user_id):
     cur = con.cursor()
     cur.execute("SELECT id, username, email FROM users WHERE id = ?", (user_id))
 
-    user = cur.fetchone()
- 
-    if user:
-        return User(user)
+    details = cur.fetchone()
+
+    if details:
+        return User(details)
+    else:
+        return None

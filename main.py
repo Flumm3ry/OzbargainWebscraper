@@ -1,5 +1,5 @@
 from scraper import Scraper
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 from node_list import NodeList
 from apscheduler.schedulers.background import BackgroundScheduler
 import models as dbHandler
@@ -11,6 +11,7 @@ url = "https://www.ozbargain.com.au/"
 node_list = NodeList(filename='node_file.txt')
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "super secret key"
 
 
 def update_scraped_data():
@@ -45,15 +46,19 @@ def login():
         # TODO: Sanitise input here
         user_id = dbHandler.log_in_user(email, password)
         if user_id:
-            # Take user to home page and start session here
-            print("logged in")
-            return "User number " + str(user_id) + " logged in"
+            session['user'] = user_id
+            return redirect(url_for('home'))
         else:
-            print("Wrong details")
             error = "Incorrect login details"
 
     # Display form and error message (if any) here
     return render_template("login.html", err_msg = error)
+
+
+@app.route("/logout")
+def logout():
+    session.pop('user_id', None)
+    return redirect(url_for('home'))
 
 
 if __name__ == "__main__":
