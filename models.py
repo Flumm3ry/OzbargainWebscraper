@@ -19,8 +19,8 @@ def log_in_user(email, password):
     user_id = cur.fetchone()
 
     if user_id:
-        print(user_id[0][0])
-        return user_id[0][0]
+        print(user_id[0])
+        return user_id[0]
     else:
         return None
 
