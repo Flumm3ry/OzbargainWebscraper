@@ -31,6 +31,6 @@ def get_user(user_id):
     cur.execute("SELECT id, username, email FROM users WHERE id = ?", (user_id))
 
     user = cur.fetchone()
-    
+ 
     if user:
         return User(user)
