@@ -6,7 +6,7 @@ import models as dbHandler
 
 url = "https://www.ozbargain.com.au/"
 
-#Scraper(url).updateCSV('node_file.txt')
+Scraper(url).updateCSV('node_file.txt')
 
 node_list = NodeList(filename='node_file.txt')
 
@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = "super secret key"
 
 
 def update_scraped_data():
-    #Scraper(url).updateCSV('node_file.txt')
+    Scraper(url).updateCSV('node_file.txt')
     global node_list
     node_list = NodeList('node_file.txt')
 

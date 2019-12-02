@@ -54,7 +54,7 @@ class Scraper:
 
         f.seek(0, 0)
 
-        node_list.remove_before(l_node_num)
+        node_list.remove_before(l_node_num)       
 
         for node in node_list.nodes:
             f.write(node.get_csv() + '\n')

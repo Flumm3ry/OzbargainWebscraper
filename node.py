@@ -28,6 +28,6 @@ class Node:
         delimiter = '|'
         csv = self.node_num + delimiter
         csv = csv + self.title + delimiter
-        csv = csv + self.content
+        csv = csv + self.content.replace(r'\n', "")
 
         return csv
