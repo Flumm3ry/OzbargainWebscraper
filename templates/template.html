@@ -20,7 +20,7 @@
 					{% endblock %}
 				</ul>
 				<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-					<li class-"nav-item">
+					<li class="nav-item">
 						<a class="nav-link p-2" href="https://github.com/Flumm3ry/OzBargainWebscraper" target="_blank" aria-label="GitHub">
 							<svg class="navbar-nav-svg" viewBox="0 0 512 499.36" role="img" focusable="false" width="30px" height="30px">
 								<title>GitHub</title>
@@ -29,6 +29,8 @@
 							</svg>
 						</a>
 					</li>
+					{% block log_in_status %}
+					{% endblock %}
 				</ul>
 			</nav>
 		</header>

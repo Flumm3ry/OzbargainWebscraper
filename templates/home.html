@@ -1,5 +1,15 @@
 {% extends "template.html" %}
 
+{% block log_in_status %}
+	<li class="nav-item">
+		{% if user %}
+			<a class="nav-link font-weight-bold" href="{{ url_for('logout') }}">Log Out [{{ user.username }}]</a>
+		{% else %}
+			<a class="nav-link font-weight-bold" href="{{ url_for('login') }}">Log In</a>
+		{% endif %}
+	</li>
+{% endblock %}
+
 {% block nav_links %}
 	
 	<li class="nav-item active"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>

@@ -27,7 +27,10 @@ sched.start()
 
 @app.route("/")
 def home():
-    return render_template("home.html", table=node_list.get_html_results())
+    logged_in_user = None
+    if 'user_id' in session:
+        logged_in_user = dbHandler.get_user(session['user_id'])
+    return render_template("home.html", table=node_list.get_html_results(), user=logged_in_user)
 
 
 @app.route("/alerts")
@@ -46,7 +49,7 @@ def login():
         # TODO: Sanitise input here
         user_id = dbHandler.log_in_user(email, password)
         if user_id:
-            session['user'] = user_id
+            session['user_id'] = user_id
             return redirect(url_for('home'))
         else:
             error = "Incorrect login details"
