@@ -13,8 +13,9 @@ class NodeList:
 
             for line in data:
                 arr = line.split('|')
-                new_node = Node(arr[1], arr[2], arr[0])
-                self.nodes.append(new_node)
+                if len(arr) == 3:
+                    new_node = Node(arr[1], arr[2], arr[0])
+                    self.nodes.append(new_node)
 
             f.close()
 
@@ -31,9 +32,17 @@ class NodeList:
         return len(self.nodes)
 
     def remove_before(self, min_num):
-        for node in self.nodes:
-            if int(node.node_num) <= min_num:
-                self.nodes.remove(node)
+        self.nodes = [nodes for nodes in self.nodes if int(nodes.node_num) > min_num]
 
     def sort(self):
-        self.nodes.sort(key=lambda x: x.node_num, reverse=True)
+        self.nodes.sort(key=lambda x: x.node_num)
+
+    def remove_duplicates(self):
+        result = []
+        i = -1
+        for node in self.nodes:
+            if not node.node_num == i:
+                result.append(node)
+            i = node.node_num
+
+        self.nodes = result

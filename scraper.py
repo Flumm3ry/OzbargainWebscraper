@@ -36,27 +36,24 @@ class Scraper:
         return Node(title, content, node_num[0])
 
     def updateCSV(self, filename):
-        l_node_num = 0
+        node_list = NodeList(filename='node_file.txt')
 
-        node_list = NodeList(nodes=self.nodes)
+        node_list.nodes += self.nodes
 
         node_list.sort()
+        node_list.remove_duplicates()
 
         if not os.path.exists('data'):
             os.makedirs('data')
             open('data/'+filename, 'x').close()
 
-        f = open('data/'+filename, "r+")
-
-        latest_node = f.readline()
-        if latest_node:
-            l_node_num = int(latest_node.split('|', 1)[0])
-
-        f.seek(0, 0)
-
-        node_list.remove_before(l_node_num)       
+        f = open('data/'+filename, "w")
+        
+        lines = []
 
         for node in node_list.nodes:
-            f.write(node.get_csv() + '\n')
+            lines.insert(0, node.get_csv() + '\n')
+        
+        f.writelines(lines)
 
         f.close()

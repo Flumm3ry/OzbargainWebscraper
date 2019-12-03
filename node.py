@@ -6,6 +6,23 @@ class Node:
         self.op_link = base_url + 'node/' + str(node_num)
         self.deal_link = base_url + 'goto/' + str(node_num)
         self.node_num = node_num
+    
+    def __eq__(self, other):
+        if not isinstance(other, Node):
+            return NotImplemented
+        return self.node_num == other.node_num
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __hash__(self):
+        return hash(self.node_num)
+
+    def __str__(self):
+        return str(self.node_num)
+
+    def __repr__(self):
+        return 'Node() ' + self.node_num
 
     def get_html(self):
         result = "<div class='card'><div class='card-body'>"
