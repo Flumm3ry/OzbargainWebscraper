@@ -58,6 +58,27 @@ def login():
     return render_template("login.html", err_msg = error)
 
 
+@app.route("/signup", methods=['GET', 'POST'])
+def signup():
+    
+    error = ""
+
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        password_conf = request.form['password_conf']
+        # TODO: Sanitise and validate input here
+        if password != password_conf:
+            error = "Please ensure passwords match"
+        if not error:
+            dbHandler.insert_user(username, email, password)
+            return redirect(url_for('login'))
+
+    # Display form and error message (if any) here
+    return render_template("signup.html", err_msg = error)
+
+
 @app.route("/logout")
 def logout():
     session.pop('user_id', None)
