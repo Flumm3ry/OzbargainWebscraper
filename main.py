@@ -20,6 +20,12 @@ def update_scraped_data():
     node_list = NodeList('node_file.txt')
 
 
+def check_alerts():
+
+
+    dbHandler.update_last_alert(node_list.get_newest_node())
+
+
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(update_scraped_data, 'interval', minutes=60)
 sched.start()
@@ -71,8 +77,8 @@ def signup():
         # TODO: Sanitise and validate input here
         if password != password_conf:
             error = "Please ensure passwords match"
-        if not error:
-            dbHandler.insert_user(username, email, password)
+        if not error:  
+            dbHandler.insert_user(username, email, password, node_list.get_newest_node())
             return redirect(url_for('login'))
 
     # Display form and error message (if any) here

@@ -46,3 +46,9 @@ class NodeList:
             i = node.node_num
 
         self.nodes = result
+
+    def get_newest_node(self):
+        if self.nodes[0]:
+            return self.nodes[0].node_num
+        else:
+            return 0
