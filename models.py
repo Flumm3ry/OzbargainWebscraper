@@ -29,21 +29,23 @@ def log_in_user(email, password):
 def get_user(user_id):
     con = sql.connect("data/scraper.db")
     cur = con.cursor()
-    cur.execute("UPDATE users SET last_alert_check = ?", (str(user_id)))
+    cur.execute("SELECT id, username, email FROM users WHERE id = ?", (str(user_id)))
     
-    con.close()
-
     details = cur.fetchone()
-
+    
     if details:
-        return User(details)
+        user = User(details)
+        con.close()
+
+        return user
     else:
+        con.close()
         return None
 
-def update_last_alert(node_num)
+def update_last_alert(node_num):
     
     con = sql.connect("data/scraper.db")
     cur = con.cursor()
-    cur.execute("SELECT id, username, email FROM users WHERE id = ?", (str(node_num)))
+    cur.execute("UPDATE users SET last_alert_check = ?", (str(node_num)))
     
     con.close()
