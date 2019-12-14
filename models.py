@@ -1,5 +1,6 @@
 import sqlite3 as sql
 from user import User
+from alert import Alert
 
 
 def insert_user(username, email, password, alert_id):
@@ -47,5 +48,36 @@ def update_last_alert(node_num):
     con = sql.connect("data/scraper.db")
     cur = con.cursor()
     cur.execute("UPDATE users SET last_alert_check = ?", (str(node_num)))
+    con.commit()
+    con.close()
+
+def get_users_alerts(user_id):
+
+    con = sql.connect("data/scraper.db")
+    cur = con.cursor()
+    cur.execute("SELECT id, alert FROM alerts WHERE user_id = ?", (str(user_id)))
     
+    result = []
+
+    for row in cur:
+        result.append(Alert(row[0], row[1]))
+    
+    con.close()
+
+    return result
+
+def delete_alert(alert_id):
+    
+    con = sql.connect("data/scraper.db")
+    cur = con.cursor()
+    cur.execute("DELETE FROM alerts WHERE id = ?", (str(alert_id)))
+    con.commit()
+    con.close()
+
+def add_alert(text, user_id):
+
+    con = sql.connect("data/scraper.db")
+    cur = con.cursor()
+    cur.execute("INSERT INTO alerts VALUES (NULL, ?, ?)", (str(user_id), str(text)))
+    con.commit()
     con.close()

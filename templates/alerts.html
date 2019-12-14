@@ -1,5 +1,15 @@
 {% extends "template.html" %}
 
+{% block log_in_status %}
+	<li class="nav-item">
+		{% if user %}
+			<a class="nav-link font-weight-bold" href="{{ url_for('logout') }}">Log Out [{{ user.username }}]</a>
+		{% else %}
+			<a class="nav-link font-weight-bold" href="{{ url_for('login') }}">Log In</a>
+		{% endif %}
+	</li>
+{% endblock %}
+
 {% block nav_links %}
 	
 	<li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
@@ -9,6 +19,25 @@
 
 {% block body_content %}
 
-	<h1 class="myTitle">Alerts Management</h1>
+	<h1 class="myTitle">Alerts</h1>
+	<form>
+		<ul class="list-group">
+
+			<li class="list-group-item">
+				<input type="text" name="toAdd" placeholder="New alert..."/>
+				<button class="btn btn-primary btn-success float-right" name="add" type="submit">Add Alert</button>
+			</li>
+
+			{% for alert in alerts %}
+			<li class="list-group-item">
+				{{ alert.text }}
+				<button class="btn btn-primary btn-danger float-right" name="delete" value="{{ alert.id }}" type="submit">Delete</button>
+			</li>
+			{% endfor %}
+
+		</ul>
+
+
+	</form>
 
 {% endblock %}

@@ -39,9 +39,28 @@ def home():
     return render_template("home.html", table=node_list.get_html_results(), user=logged_in_user)
 
 
-@app.route("/alerts")
+@app.route("/alerts", methods=['GET', 'POST'])
 def alerts():
-    return render_template("alerts.html")
+    
+    logged_in_user = None
+    if 'user_id' in session:
+        logged_in_user = dbHandler.get_user(session['user_id'])
+    else:
+        return "Error, user must be logged in to use this feature"
+    
+    if request.method == 'GET':
+        to_delete = request.args.get('delete')
+        # input will need to be sanitised here
+        to_add = request.args.get('toAdd')
+        
+        if to_delete:
+            dbHandler.delete_alert(to_delete)
+
+        elif to_add:
+            dbHandler.add_alert(to_add, logged_in_user.id)
+
+    users_alerts = dbHandler.get_users_alerts(logged_in_user.id)
+    return render_template("alerts.html", user=logged_in_user, alerts=users_alerts)
 
 
 @app.route("/login", methods=['GET', 'POST'])
