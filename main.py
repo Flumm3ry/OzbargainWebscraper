@@ -22,7 +22,11 @@ def update_scraped_data():
 
 
 def check_alerts():
-    AlertList(dbHandler.get_all_alerts())
+    alert_list = AlertList(dbHandler.get_all_alerts())
+
+    print(alert_list.search_list(node_list))
+
+    
 
     #dbHandler.update_last_alert(node_list.get_newest_node())
 

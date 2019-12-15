@@ -52,3 +52,14 @@ class NodeList:
             return self.nodes[0].node_num
         else:
             return 0
+
+    def search_list(self, search_term):
+        
+        result = []
+
+        for node in self.nodes:
+            if search_term in node.content.lower() or search_term in node.title.lower():
+                result.append(node)
+
+        return result
+

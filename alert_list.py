@@ -21,3 +21,15 @@ class AlertList:
             else:
                 temp[text].append(alert.user_id)
         self.alerts = temp
+
+    def search_list(self, nodelist):
+        result = []
+
+        for alert, user_ids in self.alerts.items():
+            nodes = nodelist.search_list(alert)
+
+            if nodes:
+                result.append([nodes, user_ids])
+
+        return result
+        
