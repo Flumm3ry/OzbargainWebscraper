@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 from node_list import NodeList
 from apscheduler.schedulers.background import BackgroundScheduler
 import models as dbHandler
+from alert_list import AlertList
 
 url = "https://www.ozbargain.com.au/"
 
@@ -21,14 +22,16 @@ def update_scraped_data():
 
 
 def check_alerts():
+    AlertList(dbHandler.get_all_alerts())
 
-
-    dbHandler.update_last_alert(node_list.get_newest_node())
+    #dbHandler.update_last_alert(node_list.get_newest_node())
 
 
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(update_scraped_data, 'interval', minutes=60)
 sched.start()
+
+check_alerts()
 
 
 @app.route("/")

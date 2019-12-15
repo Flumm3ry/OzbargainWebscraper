@@ -43,6 +43,7 @@ def get_user(user_id):
         con.close()
         return None
 
+
 def update_last_alert(node_num):
     
     con = sql.connect("data/scraper.db")
@@ -50,6 +51,23 @@ def update_last_alert(node_num):
     cur.execute("UPDATE users SET last_alert_check = ?", (str(node_num)))
     con.commit()
     con.close()
+
+
+def get_all_alerts():
+
+    con = sql.connect("data/scraper.db")
+    cur = con.cursor()
+    cur.execute("SELECT id, user_id, alert FROM alerts")
+    
+    result = []
+
+    for row in cur:
+        result.append(Alert(alert_id=row[0], user_id=row[1], text=row[2]))
+    
+    con.close()
+
+    return result
+
 
 def get_users_alerts(user_id):
 
@@ -60,11 +78,12 @@ def get_users_alerts(user_id):
     result = []
 
     for row in cur:
-        result.append(Alert(row[0], row[1]))
+        result.append(Alert(alert_id=row[0], text=row[1]))
     
     con.close()
 
     return result
+
 
 def delete_alert(alert_id):
     
@@ -73,6 +92,7 @@ def delete_alert(alert_id):
     cur.execute("DELETE FROM alerts WHERE id = ?", (str(alert_id)))
     con.commit()
     con.close()
+
 
 def add_alert(text, user_id):
 
