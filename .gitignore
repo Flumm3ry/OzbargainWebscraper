@@ -1,4 +1,7 @@
-# Data sued for the app to run
+# Config information
+config.py
+
+# Data used for the app to run
 data/
 
 # Byte compiled / optimized / DLL files

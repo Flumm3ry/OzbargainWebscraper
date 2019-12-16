@@ -30,7 +30,7 @@ def log_in_user(email, password):
 def get_user(user_id):
     con = sql.connect("data/scraper.db")
     cur = con.cursor()
-    cur.execute("SELECT id, username, email, last_alert_check FROM users WHERE id = ?", (str(user_id)))
+    cur.execute("SELECT id, username, email, last_alert_check FROM users WHERE id = ?", [str(user_id)])
     
     details = cur.fetchone()
     
@@ -48,7 +48,7 @@ def update_last_alert(node_num):
     
     con = sql.connect("data/scraper.db")
     cur = con.cursor()
-    cur.execute("UPDATE users SET last_alert_check = ?", (str(node_num)))
+    cur.execute("UPDATE users SET last_alert_check = ?", [str(node_num)])
     con.commit()
     con.close()
 

@@ -1,4 +1,5 @@
 beautifulsoup4
 requests
 flask
+flask_mail
 apscheduler

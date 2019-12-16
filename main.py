@@ -1,9 +1,11 @@
 from scraper import Scraper
 from flask import Flask, render_template, request, session, redirect, url_for
+from flask_mail import Mail, Message
 from node_list import NodeList
 from apscheduler.schedulers.background import BackgroundScheduler
 import models as dbHandler
 from alert_list import AlertList
+from config import mail_config
 
 url = "https://www.ozbargain.com.au/"
 
@@ -13,12 +15,33 @@ node_list = NodeList(filename='node_file.txt')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "super secret key"
+app.config.update(mail_config)
+mail = Mail(app)
 
 
 def update_scraped_data():
     Scraper(url).updateCSV('node_file.txt')
     global node_list
     node_list = NodeList('node_file.txt')
+
+def send_emails(to_email):
+    for data in to_email:
+        user = data[0]
+        nodes = data[1]
+
+        if nodes:
+            message_content = "<p><b>Hey " + user.username + ",</b></p><br/>"
+            message_content += "<p>We've found some bargains that match your alerts!</p>"
+
+            for node in nodes:
+                message_content += "<h6><a href=\"" + node.op_link + "\">" + node.title + "</a></h6>"
+
+            with app.app_context():
+                msg = Message(subject="Bargain Alert",
+                              sender=app.config.get("MAIL_USERNAME"),
+                              recipients=["user.email"],
+                              html=message_content)
+                mail.send(msg)
 
 
 def check_alerts():
@@ -35,14 +58,11 @@ def check_alerts():
                if int(node.node_num) > user.last_alert_checked and node not in checked_nodes:
                    checked_nodes.append(node)
 
-           to_email.append([user.email, checked_nodes])
+           to_email.append([user, checked_nodes])
 
-    print (to_email)
+    send_emails(to_email)
 
-
-    
-
-    #dbHandler.update_last_alert(node_list.get_newest_node())
+    dbHandler.update_last_alert(node_list.get_newest_node())
 
 
 sched = BackgroundScheduler(daemon=True)
@@ -132,4 +152,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='10.0.0.11')
