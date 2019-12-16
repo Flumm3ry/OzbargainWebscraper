@@ -9,27 +9,31 @@ class AlertList:
     def organise(self):
         temp = {}
     
-        # creates a dictionary where the key is the alert string
-        # and the value is a list of users with that alert
-        # this prevents the alert being searched for more than once
-        # even if multipleusers have the same alert
+        # creates a dictionary where the key is the user id
+        # and the value is the alert
 
         for alert in self.alerts:
             text = str(alert.text).lower()
-            if text not in temp:
-                temp[text] = [alert.user_id]
+            if alert.user_id not in temp:
+                temp[alert.user_id] = [text]
             else:
-                temp[text].append(alert.user_id)
+                temp[alert.user_id].append(text)
         self.alerts = temp
 
     def search_list(self, nodelist):
         result = []
 
-        for alert, user_ids in self.alerts.items():
-            nodes = nodelist.search_list(alert)
+        for user_id, alerts in self.alerts.items():
+            
+            nodes = []
 
-            if nodes:
-                result.append([nodes, user_ids])
+            for alert in alerts:    
+                nodes_found = nodelist.search_list(alert)
+
+                if nodes_found:
+                    nodes.extend(nodes_found)
+
+            result.append([user_id, nodes])
 
         return result
         

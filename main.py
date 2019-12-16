@@ -24,7 +24,21 @@ def update_scraped_data():
 def check_alerts():
     alert_list = AlertList(dbHandler.get_all_alerts())
 
-    print(alert_list.search_list(node_list))
+    to_check = alert_list.search_list(node_list)
+
+    to_email = []
+
+    for user_id, nodes in to_check:
+           user = dbHandler.get_user(user_id)
+           checked_nodes = []
+           for node in nodes:
+               if int(node.node_num) > user.last_alert_checked and node not in checked_nodes:
+                   checked_nodes.append(node)
+
+           to_email.append([user.email, checked_nodes])
+
+    print (to_email)
+
 
     
 
