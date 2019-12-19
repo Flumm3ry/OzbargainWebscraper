@@ -1,6 +1,7 @@
 import sqlite3 as sql
 from user import User
 from alert import Alert
+from passlib.hash import pbkdf2_sha256 as hasher
 
 
 def insert_user(username, email, password, alert_id):
@@ -15,16 +16,17 @@ def insert_user(username, email, password, alert_id):
 def log_in_user(email, password):
     con = sql.connect("data/scraper.db")
     cur = con.cursor()
-    cur.execute("SELECT id FROM users WHERE email = ? AND password = ?", (email, password))
+    cur.execute("SELECT id, password FROM users WHERE email = ?", (email, ))
 
-    user_id = cur.fetchone()
+    user_data = cur.fetchone()
     
     con.close()
 
-    if user_id:
-        return user_id[0]
-    else:
-        return None
+    if user_data:
+        if (hasher.verify(password, user_data[1])):
+            return user_data[0]
+
+    return None
 
 
 def get_user(user_id):

@@ -6,6 +6,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import models as dbHandler
 from alert_list import AlertList
 from config import mail_config
+from passlib.hash import pbkdf2_sha256 as hasher
 
 url = "https://www.ozbargain.com.au/"
 
@@ -138,7 +139,7 @@ def signup():
         if password != password_conf:
             error = "Please ensure passwords match"
         if not error:  
-            dbHandler.insert_user(username, email, password, node_list.get_newest_node())
+            dbHandler.insert_user(username, email, hasher.hash(password), node_list.get_newest_node())
             return redirect(url_for('login'))
 
     # Display form and error message (if any) here
