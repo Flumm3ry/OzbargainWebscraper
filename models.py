@@ -12,6 +12,20 @@ def insert_user(username, email, password, alert_id):
     con.commit()
     con.close()
 
+def is_unique_email(email):
+    con = sql.connect("data/scraper.db")
+    cur = con.cursor()
+    cur.execute("SELECT * FROM users WHERE email = ?", (email, ))
+    
+    if cur.fetchone():
+        result = False
+    else:
+        result = True
+
+    con.close()
+
+    return result
+
 
 def log_in_user(email, password):
     con = sql.connect("data/scraper.db")

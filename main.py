@@ -136,8 +136,12 @@ def signup():
         password = request.form['password']
         password_conf = request.form['password_conf']
         # TODO: Sanitise and validate input here
+
+        if not dbHandler.is_unique_email(email):
+            error += "This email address is already associated with an account."
+
         if password != password_conf:
-            error = "Please ensure passwords match"
+            error += "Please ensure passwords match"
         if not error:  
             dbHandler.insert_user(username, email, hasher.hash(password), node_list.get_newest_node())
             return redirect(url_for('login'))
