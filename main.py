@@ -65,9 +65,14 @@ def check_alerts():
 
     dbHandler.update_last_alert(node_list.get_newest_node())
 
+def clear_CSV():
+    open('data/node_file.txt', "w").close()
+    update_scraped_data()
+
 
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(update_scraped_data, 'interval', minutes=60)
+sched.add_job(clear_CSV, 'cron', hour=0)
 sched.start()
 
 check_alerts()
