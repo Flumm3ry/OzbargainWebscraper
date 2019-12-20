@@ -13,7 +13,11 @@ body{
 	padding-bottom: 40px;
 }
 
-.card{
+.card, #searchBar{
 	margin: 15px 30px 15px;
 	z-index: 99;
+}
+
+#searchBar{
+	margin: 15px 30px 15px;
 }

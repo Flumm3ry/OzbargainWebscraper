@@ -1,5 +1,9 @@
 {% extends "template.html" %}
 
+{% block scripts %}
+	<script src="{{ url_for('static', filename='scripts/home.js')  }}"></script>
+{% endblock %}
+
 {% block log_in_status %}
 	<li class="nav-item">
 		{% if user %}
@@ -19,7 +23,8 @@
 
 {% block body_content %}
 
-	<h1 class="myTitle">Home Page</h1>
+	<h1 class="myTitle">Recent Bargains</h1>
+	<input class="form-control form-control-lg" id="searchBar" type="text" placeholder="Search..." aria-label="Search..." onkeyup="searchFunction()"/>
 	{{ table|safe }}
 
 {% endblock %}
