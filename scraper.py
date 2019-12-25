@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from node import Node
 from node_list import NodeList
 import os
+from config import path_directory
 
 
 class Scraper:
@@ -43,11 +44,11 @@ class Scraper:
         node_list.sort()
         node_list.remove_duplicates()
 
-        if not os.path.exists('data'):
-            os.makedirs('data')
-            open('data/'+filename, 'x').close()
+        if not os.path.exists(path_directory + 'data'):
+            os.makedirs(path_directory + 'data')
+            open(path_directory + 'data/'+filename, 'x').close()
 
-        f = open('data/'+filename, "w")
+        f = open(path_directory + 'data/'+filename, "w")
         
         lines = []
 

@@ -5,7 +5,7 @@ from node_list import NodeList
 from apscheduler.schedulers.background import BackgroundScheduler
 import models as dbHandler
 from alert_list import AlertList
-from config import mail_config
+from config import mail_config, path_directory
 from passlib.hash import pbkdf2_sha256 as hasher
 
 url = "https://www.ozbargain.com.au/"
@@ -23,7 +23,7 @@ mail = Mail(app)
 def update_scraped_data():
     Scraper(url).updateCSV('node_file.txt')
     global node_list
-    node_list = NodeList('node_file.txt')
+    node_list = NodeList(filename = 'node_file.txt')
 
 def send_emails(to_email):
     for data in to_email:
@@ -66,7 +66,7 @@ def check_alerts():
     dbHandler.update_last_alert(node_list.get_newest_node())
 
 def clear_CSV():
-    open('data/node_file.txt', "w").close()
+    open(path_directory + 'data/node_file.txt', "w").close()
     update_scraped_data()
 
 

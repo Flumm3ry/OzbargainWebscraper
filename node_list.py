@@ -1,4 +1,5 @@
 from node import Node
+from config import path_directory
 
 
 class NodeList:
@@ -8,7 +9,7 @@ class NodeList:
         if (filename):
             self.nodes = []
 
-            f = open('data/' + filename, 'r')
+            f = open(path_directory + 'data/' + filename, 'r')
             data = f.readlines()
 
             for line in data:
