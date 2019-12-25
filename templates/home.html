@@ -24,7 +24,9 @@
 {% block body_content %}
 
 	<h1 class="myTitle">Recent Bargains</h1>
-	<input class="form-control form-control-lg" id="searchBar" type="text" placeholder="Search..." aria-label="Search..." onkeyup="searchFunction()"/>
+	<form class="form-inline">
+		  <input class="form-control form-control-lg mr-3 w-75" id="searchBar" type="text" placeholder="Search..." aria-label="Search" onkeyup="searchFunction()">
+	</form>
 	{{ table|safe }}
 
 {% endblock %}
